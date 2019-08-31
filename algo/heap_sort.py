@@ -24,10 +24,12 @@ def insert(heap, elements):
 
     def _rearrange():
         ppos, cpos = next(counter), next(counter)
-        breakpoint()
         while cpos < len(heap):
-            if heap[ppos] > heap[cpos]:
-                heap[ppos], heap[cpos] = heap[cpos], heap[ppos]
+            for i in range(ppos, cpos):
+                end = min((cpos - ppos)  * 2 + 1, len(heap))
+                for j in range(cpos, end):
+                    if heap[i] > heap[j]:
+                        heap[i], heap[j] = heap[j], heap[i]
             ppos, cpos = next(counter), next(counter)
 
     if not (heap or elements) or not elements:
