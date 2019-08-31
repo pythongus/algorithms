@@ -1,29 +1,5 @@
 """
-cnode left right node values 
-1                3    1,3,10,9,8,12,2,2,2,1,100
-3     1          10
-10    3          9
-10    3    9     8
-10    8    9     12
-12    10         2
-12    10   2     2
-2     2          2
-2     2l   2     1
-2l    1          100
-100   12
-{'left': {'left': {'left': {'left': {'left': None, 'right': None, 'value': 1},
-                            'right': None,
-                            'value': 3},
-                   'right': {'left': {'left': None, 'right': None, 'value': 8},
-                             'right': None,
-                             'value': 9},
-                   'value': 10},
-          'right': {'left': {'left': None, 'right': None, 'value': 1},
-                    'right': None,
-                    'value': 2},
-          'value': 12},
- 'right': None,
- 'value': 100}
+Unit Test For Heaps
 """
 import unittest
 from algo.heap import create_heap
@@ -85,6 +61,13 @@ class TestHeap(unittest.TestCase):
         values = [1, 3, 10, 9, 8, 12, 2, 2, 2, 1, 100]
         root = create_heap(values)
         self.assertEqual(root["value"], 100)
+
+    def test_create_heap_varying_7(self):
+        values = [10, 3, 1, 4, 2]
+        root = create_heap(values)
+        self.assertEqual(root["value"], 10)
+        self.assertEqual(root["left"]["value"], 4)
+        self.assertEqual(root["right"]["value"], 1)
 
 
 if __name__ == "__main__":

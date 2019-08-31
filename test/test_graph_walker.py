@@ -39,6 +39,30 @@ class TestGraphWalker(unittest.TestCase):
         wlkr = TestGraphWalker.walker
         self.assertEqual(wlkr.any_path(Node(1), Node(10)), [Node(i) for i in range(2, 11)])
 
+    def test_any_path_random_vertices(self):
+        graph = Graph()
+        graph.build("test.dat")
+        walker = GraphWalker(graph)
+        self.assertEqual(walker.any_path(Node(1), Node(4)), [Node(i) for i in range(2, 5)])
+
+    def test_any_path_random_vertices(self):
+        graph = Graph()
+        graph.build("test.dat")
+        walker = GraphWalker(graph)
+        self.assertEqual(walker.any_path(Node(1), Node(4)), [Node(i) for i in range(2, 5)])
+
+    def test_any_path_dangling_vertex(self):
+        graph = Graph()
+        graph.build("test.dat")
+        walker = GraphWalker(graph)
+        self.assertEqual(walker.any_path(Node(1), Node(5)), [Node(i) for i in [2, 3, 5]])
+
+    def test_any_path_invalid_vertex(self):
+        graph = Graph()
+        graph.build("test.dat")
+        walker = GraphWalker(graph)
+        self.assertEqual(walker.any_path(Node(6), Node(7)), [])
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -3,6 +3,7 @@ Graph Unit Test Module
 """
 import unittest
 from algo.graph import Graph
+from algo.node import Node
 
 
 class TestGraph(unittest.TestCase):
@@ -24,6 +25,14 @@ class TestGraph(unittest.TestCase):
 
     def test_build_graph(self):
         self.assertEqual(TestGraph.graph.nnodes(), 10) 
+
+    def test_node_repr(self):
+        node = Node(1)
+        self.assertEqual(repr(node), "V1")
+
+    def test_node_str(self):
+        node = Node(1)
+        self.assertEqual(str(node), "1: []")
 
     def test_chart_matrix(self):
         matrix = TestGraph.graph.chart_matrix()

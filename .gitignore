@@ -1,4 +1,6 @@
+*.prof
 .coverage
 .project
 **/__pycache__/
 htmlcov/
+*.log

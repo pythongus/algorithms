@@ -14,9 +14,9 @@ class GraphWalker:
                 return accumulator
             elif not vertices:
                 return []
-            elif vertices[0] == end_vertex:
+            elif end_vertex in vertices:
                 return accumulator + [end_vertex]
-            
+
             return search(list(vertices[1:]),
                           search(list(matrix.get(vertices[0], [])),
                                  accumulator + [vertices[0]]))

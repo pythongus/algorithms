@@ -61,10 +61,6 @@ class Graph(object):
 
     def chart_matrix(self):
         """Returns the adjacency matrix as a list of lines to be ploted or printed"""
-
-        def add_node(row, col):
-            return "X" if (row + 1, col + 1) in self.edges else "."
-
         matrix = [["." for _ in range(self.nnodes())] for _ in range(self.nnodes())]
         header = []
         for key, values in self.matrix.items():
