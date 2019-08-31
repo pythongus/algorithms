@@ -26,7 +26,7 @@ def insert(heap, elements):
         ppos, cpos = next(counter), next(counter)
         while cpos < len(heap):
             for i in range(ppos, cpos):
-                end = min((cpos - ppos)  * 2 + 1, len(heap))
+                end = min(i * 2 + 2, len(heap))
                 for j in range(cpos, end):
                     if heap[i] > heap[j]:
                         heap[i], heap[j] = heap[j], heap[i]
@@ -35,7 +35,7 @@ def insert(heap, elements):
     if not (heap or elements) or not elements:
         return heap
 
-    counter = range2(0, 2 ** (len(elements) + 1), 2)
+    counter = range2(0, 2 ** (len(elements) + len(heap) + 1), 2)
     _new(next(counter))
     _rearrange()
     return heap
