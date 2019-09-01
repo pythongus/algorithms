@@ -13,40 +13,42 @@ p  c    len(heap) nl
 
 
 """
+from math import log
+
+
 def insert(heap, elements):
     """Inserts the elements in the heap."""
 
-    def _new(pos):
+    def _insert():
         for elem in elements:
-            if heap and elem < heap[pos]:
-                heap[pos], elem = elem, heap[pos]
+            if heap and elem < heap[0]:
+                heap[0], elem = elem, heap[0]
             heap.append(elem)
+            _rearrange()
 
     def _rearrange():
-        ppos, cpos = next(counter), next(counter)
-        while cpos < len(heap):
-            for i in range(ppos, cpos):
-                end = min(i * 2 + 2, len(heap))
-                for j in range(cpos, end):
-                    if heap[i] > heap[j]:
-                        heap[i], heap[j] = heap[j], heap[i]
-            ppos, cpos = next(counter), next(counter)
+        pos = len(heap) - 1
+        parent = parent_position(pos)
+        while parent > 0 and heap[parent] > heap[pos]:
+            heap[parent], heap[pos] = heap[pos], heap[parent]
+            pos = parent
+            parent = parent_position(parent)
 
     if not (heap or elements) or not elements:
         return heap
 
-    counter = range2(0, 2 ** (len(elements) + len(heap) + 1), 2)
-    _new(next(counter))
-    _rearrange()
+    _insert()
     return heap
 
-def range2(start, stop, step=1):
-    """Returns the elements in the range start up to stop,
-    moving step ** count, with count starting at zero.
+
+def parent_position(pos):
+    """Calculates the parent position given the current one, pos.
+    Adds an error epsilon, so floating point precision is addressed
+    by calculations.
     """
-    num = start
-    count = 0
-    while num < stop and step > 0:
-        yield num
-        num = num + step ** count
-        count += 1
+    epsilon = 0.001
+    if pos == 0:
+        return pos
+    n = log(pos) / log(2)
+    return round(2 ** (n - 1) - 1 + epsilon)
+
