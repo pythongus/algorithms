@@ -14,30 +14,25 @@ p  c    len(heap) nl
 
 """
 from math import log
+from operator import gt, lt
 
 
-def insert(heap, elements):
+def heapify(heap, min_heap=True):
     """Inserts the elements in the heap."""
 
-    def _insert():
-        for elem in elements:
-            if heap and elem < heap[0]:
-                heap[0], elem = elem, heap[0]
-            heap.append(elem)
-            _rearrange()
-
-    def _rearrange():
-        pos = len(heap) - 1
+    def _sift_down(index):
+        pos = index
         parent = parent_position(pos)
-        while parent > 0 and heap[parent] > heap[pos]:
+        while parent >= 0 and oper(heap[pos], heap[parent]):
             heap[parent], heap[pos] = heap[pos], heap[parent]
             pos = parent
             parent = parent_position(parent)
 
-    if not (heap or elements) or not elements:
+    if not heap:
         return heap
 
-    _insert()
+    oper = lt if min_heap else gt
+    _ = [_sift_down(index) for index in range(len(heap))]
     return heap
 
 
