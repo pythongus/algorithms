@@ -64,18 +64,10 @@ def minMoves(maze, x, y):
         coins and the path. Once path is read from the binary
         form, the formula is *coins + 1/path_count*.
         """
-        i = 0
-        path_count = 0
-        bin_num = 1
-        while bin_num <= path:
-            if path & bin_num:
-                path_count += 1
-            i += 1
-            bin_num = 2 ** i
-        
-        weight = coins + 1/path_count
+        pcount = path_count(path)
+        weight = coins + 1 / pcount
         if weight > previous_weight:
-            return weight, path_count
+            return weight, pcount
         return previous_weight, result
      
     if not maze_guard():
@@ -86,3 +78,18 @@ def minMoves(maze, x, y):
     nodes = deque([(0, 0, 0, 0)])
     return walk_maze((x, y))
 
+
+def path_count(path):
+    """Counts the nodes in the path
+    by checking the binary number.
+    """
+    i = 0
+    count = 0
+    bin_num = 1
+    while bin_num <= path:
+        if path & bin_num:
+            count += 1
+        i += 1
+        bin_num = 2 ** i
+
+    return count
