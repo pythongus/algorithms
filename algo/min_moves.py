@@ -2,9 +2,7 @@
 
 A maze solver, calculating the weighted shortest path between two points.
 """
-from collections import (
-        OrderedDict,
-        deque)
+from collections import OrderedDict, deque
 from itertools import chain
 from functools import reduce
 
@@ -59,37 +57,42 @@ def minMoves(maze, x, y):
                  (i, j + 1, j + 1 < m), (i, j - 1, j - 1 >= 0)]
         _ = [neighbour(x, y) for x, y, test in coord if test]
 
-    def check_result(coins, path, previous_weight, result):
-        """Checks the current result with a weighted value of
-        coins and the path. Once path is read from the binary
-        form, the formula is *coins + 1/path_count*.
-        """
-        pcount = path_count(path)
-        weight = coins + 1 / pcount
-        if weight > previous_weight:
-            return weight, pcount
-        return previous_weight, result
-     
     if not maze_guard():
         return -1
-    
+
     n = len(maze)
     m = len(maze[0])
     nodes = deque([(0, 0, 0, 0)])
     return walk_maze((x, y))
 
 
-def path_count(path):
-    """Counts the nodes in the path
-    by checking the binary number.
+def check_result(coins, path, previous_weight, result):
+    """Checks the current result with a weighted value of
+    coins and the path. Once path is read from the binary
+    form, the formula is *coins + 1/path_count*.
     """
-    i = 0
-    count = 0
-    bin_num = 1
-    while bin_num <= path:
-        if path & bin_num:
-            count += 1
-        i += 1
-        bin_num = 2 ** i
+    pcount = path_count(path)
+    weight = coins + 1 / pcount
+    if weight > previous_weight:
+        return weight, pcount
+    return previous_weight, result
 
-    return count
+
+def path_count(path):
+    """Counts the nodes in the path by checking the binary number."""
+
+    def x_is_contained_in_y(bin_num):
+        x_and_y = bin_num & path == bin_num
+        x_or_y = bin_num | path == path
+        x_and_y_complement = bin_num & (-path - 1) == 0
+        return  x_and_y and x_or_y and x_and_y_complement
+
+    return sum([x_is_contained_in_y(bin_num) for bin_num in pow2(path)])
+
+
+def pow2(limit):
+    """Generator for binary numbers, i.e., 2 ** n, up to the limit."""
+    i = 0; bin_num = 1
+    while bin_num <= limit:
+        yield bin_num
+        i += 1; bin_num = 2 ** i
