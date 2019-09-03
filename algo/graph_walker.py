@@ -10,19 +10,24 @@ class GraphWalker:
         """Searches for any path connecting start and end vertices"""
 
         def search(vertices, accumulator):
-            if accumulator and accumulator[-1] == end_vertex:
+            if not vertices:
                 return accumulator
-            elif not vertices:
-                return []
             elif end_vertex in vertices:
                 return accumulator + [end_vertex]
+            next_vertices = [vertex for vertex
+                             in matrix.get(vertices[0], [])
+                             if vertex not in accumulator]
 
-            return search(list(vertices[1:]),
-                          search(list(matrix.get(vertices[0], [])),
+            return search(vertices[1:],
+                          search(next_vertices,
                                  accumulator + [vertices[0]]))
 
         if not all([start_vertex, end_vertex]):
             return []
 
         matrix = self.graph.adjacency_matrix()
-        return search(list(matrix.get(start_vertex, [])), []) 
+        return search(matrix.get(start_vertex, []), []) 
+
+
+if __name__ == "__main__":
+    unittest.main()

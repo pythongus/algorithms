@@ -15,17 +15,12 @@ class Graph(object):
     def _create_adjacency_matrix(self):
 
         def get_node(node):
-            node_pool.setdefault(node, Node(node))
-            return node_pool[node]
+            return node_pool.setdefault(node, Node(node))
 
         node_pool = {}
         for start, end in self.edges:
             snode = get_node(start)
-            enode = get_node(end)
-            if snode in self.matrix:
-                self.matrix[snode].add(enode)
-            else:
-                self.matrix.setdefault(snode, {enode})
+            self.matrix.update({snode: self.matrix.get(snode, []) + [get_node(end)]})
 
     def _read_data(self, file_name):
 
