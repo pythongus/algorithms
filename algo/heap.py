@@ -2,11 +2,13 @@
 Heap Data Structure
 """
 
+
 def create_heap(values):
+    """Creates the heap data structure from the given list of values."""
 
     def create_node(value):
         return {"value": value, "right": None, "left": None}
-    
+
     def _insert(new_node, parent):
         nnd = new_node["value"]
         prt = parent["value"]
@@ -19,10 +21,10 @@ def create_heap(values):
             parent["left"] = new_node
         elif rprt is None:
             parent["right"] = new_node
-        elif lprt < nnd and lprt > rprt: 
+        elif rprt < lprt < nnd:
             new_node["left"] = parent["left"]
             parent["left"] = new_node
-        elif rprt < nnd and rprt > lprt: 
+        elif lprt < rprt < nnd:
             new_node["left"] = parent["right"]
             parent["right"] = new_node
         else:
@@ -32,7 +34,6 @@ def create_heap(values):
     def insert(values, root):
         if not values:
             return root
-
         return insert(values[1:], _insert(create_node(values[0]), root))
 
     if not values:

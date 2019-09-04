@@ -1,7 +1,12 @@
-from algo.graph import Graph
+"""
+Graph Walker
+
+Provides methods for traversing a graph.
+"""
 
 
 class GraphWalker:
+    """The Graph Walker"""
 
     def __init__(self, graph):
         self.graph = graph
@@ -12,7 +17,7 @@ class GraphWalker:
         def search(vertices, accumulator):
             if not vertices:
                 return accumulator
-            elif end_vertex in vertices:
+            if end_vertex in vertices:
                 return accumulator + [end_vertex]
             next_vertices = [vertex for vertex
                              in matrix.get(vertices[0], [])
@@ -26,8 +31,4 @@ class GraphWalker:
             return []
 
         matrix = self.graph.adjacency_matrix()
-        return search(matrix.get(start_vertex, []), []) 
-
-
-if __name__ == "__main__":
-    unittest.main()
+        return search(matrix.get(start_vertex, []), [])

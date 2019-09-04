@@ -1,11 +1,15 @@
+"""
+A Graph Object
+
+Graph structure as an object.
+"""
 from __future__ import print_function
 import os
-from itertools import chain
 from collections import OrderedDict
 from algo.node import Node
 
 
-class Graph(object):
+class Graph:
     """A graph object"""
 
     def __init__(self):
@@ -20,7 +24,8 @@ class Graph(object):
         node_pool = {}
         for start, end in self.edges:
             snode = get_node(start)
-            self.matrix.update({snode: self.matrix.get(snode, []) + [get_node(end)]})
+            next_nodes = self.matrix.get(snode, []) + [get_node(end)]
+            self.matrix.update({snode: next_nodes})
 
     def _read_data(self, file_name):
 
@@ -34,7 +39,7 @@ class Graph(object):
 
         with open(file_name) as data:
             self.edges = [edge_endpoints(edge) for edge in data.readlines()
-                              if valid_line(edge)]
+                          if valid_line(edge)]
 
     def build(self, file_name):
 
@@ -45,9 +50,11 @@ class Graph(object):
         self._create_adjacency_matrix()
 
         return self.nnodes()
-    
+
     def nnodes(self):
-        """Convenience function that provides the number of vertices in the graph"""
+        """Convenience function that provides the number of vertices
+        in the graph
+        """
         return len(self.matrix.keys())
 
     def adjacency_matrix(self):
@@ -55,8 +62,11 @@ class Graph(object):
         return self.matrix
 
     def chart_matrix(self):
-        """Returns the adjacency matrix as a list of lines to be ploted or printed"""
-        matrix = [["." for _ in range(self.nnodes())] for _ in range(self.nnodes())]
+        """Returns the adjacency matrix as a list of lines to
+        be ploted or printed
+        """
+        matrix = [["." for _ in range(self.nnodes())]
+                  for _ in range(self.nnodes())]
         header = []
         for key, values in self.matrix.items():
             header.append(str(hash(key)))

@@ -25,11 +25,13 @@ def decrypt(text, key):
 
 
 def one_time_pad(text, key, operation):
-    return "".join([modular_operation(ch1, ch2, len(PAD), operation) for ch1, ch2 in list(zip(text, key))])
+    return "".join([modular_operation(ch1, ch2, len(PAD), operation)
+                    for ch1, ch2 in list(zip(text, key))])
 
 
 def modular_operation(char1, char2, size, operation):
-    return to_character(operation(to_number_code(char1), to_number_code(char2)) % size)
+    return to_character(operation(to_number_code(char1),
+                        to_number_code(char2)) % size)
 
 
 def to_number_code(char):

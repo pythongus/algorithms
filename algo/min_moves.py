@@ -2,9 +2,7 @@
 
 A maze solver, calculating the weighted shortest path between two points.
 """
-from collections import OrderedDict, deque
-from itertools import chain
-from functools import reduce
+from collections import deque
 
 
 def minMoves(maze, x, y):
@@ -16,7 +14,7 @@ def minMoves(maze, x, y):
     - 1 blocked
     - 2 free with a coin
     """
-    
+
     def maze_guard():
         """Guard function to block oversized dimensions"""
         cell_guard = all([1 <= len(row) <= 100 for row in maze])
@@ -85,14 +83,16 @@ def path_count(path):
         x_and_y = bin_num & path == bin_num
         x_or_y = bin_num | path == path
         x_and_y_complement = bin_num & (-path - 1) == 0
-        return  x_and_y and x_or_y and x_and_y_complement
+        return x_and_y and x_or_y and x_and_y_complement
 
     return sum([x_is_contained_in_y(bin_num) for bin_num in pow2(path)])
 
 
 def pow2(limit):
     """Generator for binary numbers, i.e., 2 ** n, up to the limit."""
-    i = 0; bin_num = 1
+    i = 0
+    bin_num = 1
     while bin_num <= limit:
         yield bin_num
-        i += 1; bin_num = 2 ** i
+        i += 1
+        bin_num = 2 ** i
