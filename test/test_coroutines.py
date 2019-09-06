@@ -1,24 +1,7 @@
 """
 Unit Test For Coroutines.
 """
-
-
-def simple(message):
-    print(message)
-    while message != 'END':
-        message = yield 
-        print(f"Message: {message}")
-
-    return f'Final message should be {message}'
-
-
-def power_of_2():
-    number = yield
-    while number > 0:
-        number = yield 2 ** number
-
-    return number
-
+from algo.coroutines import simple, power_of_2
 
 def test_simple():
     smpl = simple("First message")
@@ -45,6 +28,20 @@ def test_power_of_2():
         print('No StopIteration exception raised')
     finally:
         assert message == -1
+
+
+def test_power_of_2_list():
+    pow2 = power_of_2()
+    next(pow2)
+    results = []
+    try:
+        results.extend([pow2.send(n) for n in range(0, 10)])
+    except StopIteration as sie:
+        message = sie.value
+    else:
+        print('No StopIteration exception raised')
+    finally:
+        assert results[9] == 2 ** 9
 
 
 def test_accumulator():
