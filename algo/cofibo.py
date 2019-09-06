@@ -12,6 +12,8 @@ cur  prev  ele
 1    1     1
 1    1     2
 """
+
+
 def fibonacci():
     """Yields the next value of the Fibonacci sequence,
     given the previous one.

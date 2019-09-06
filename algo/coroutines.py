@@ -7,7 +7,7 @@ def simple(message):
     """A simple message printing function"""
     print(message)
     while message != 'END':
-        message = yield 
+        message = yield
         print(f"Message: {message}")
 
     return f'Final message should be {message}'
